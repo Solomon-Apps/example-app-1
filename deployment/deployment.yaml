@@ -23,6 +23,6 @@ spec:
       restartPolicy: Always
       containers:
       - name: example-app-1
-        image: docker.io/example-app-1/example-app-1:latest
+        image: 192.168.1.67:6000/example-app-1/example-app-1:latest
         ports:
         - containerPort: 5000
