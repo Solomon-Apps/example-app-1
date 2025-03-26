@@ -22,6 +22,6 @@ spec:
     spec:
       containers:
       - name: example-app-1
-        image: localhost:6000/example-app-1:latest
+        image: 192.168.1.67:6000/example-app-1:latest
         ports:
         - containerPort: 5000
