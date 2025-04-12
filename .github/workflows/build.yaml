@@ -15,6 +15,7 @@ jobs:
       DOCKER_TLS_VERIFY: ""
       DOCKER_BUILDKIT: 1
       DOCKER_CLI_EXPERIMENTAL: enabled
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
 
     steps:
       - name: "Checkout"
@@ -48,18 +49,17 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64
 
-      - name: Create kubeconfig
-        run: |
-          mkdir -p ${HOME}/.kube
-          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-
       - name: Use context
         run: kubectl config use-context octobay-api
 
       - name: Dry Run Deploy to K8s
+        uses: actions-hub/kubectl@master
         if: github.event_name == 'pull_request'
-        run: kubectl apply -f deployment/ --dry-run=client
+        with:
+          args: apply -f deployment/ --dry-run=client
 
       - name: Deploy to K8s
+        uses: actions-hub/kubectl@master
         if: github.event_name == 'push'
-        run: kubectl apply -f deployment/
+        with:
+          args: apply -f deployment/
