@@ -47,3 +47,19 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
+
+      - name: Create kubeconfig
+        run: |
+          mkdir ${HOME}/.kube
+          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+
+      - name: Use context
+        run: kubectl config use-context octobay-api
+
+      - name: Dry Run Deploy to K8s
+        if: github.event_name == 'pull_request'
+        run: kubectl apply -f deployment/ --dry-run=client
+
+      - name: Deploy to K8s
+        if: github.event_name == 'push'
+        run: kubectl apply -f deployment/
