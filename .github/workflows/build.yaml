@@ -22,11 +22,6 @@ jobs:
           driver-opts: |
             network=host
 
-      - name: "Configure Docker for insecure registry"
-        run: |
-          echo ${{ secrets.REGISTRY_PASSWORD }} | sudo -S tee /etc/docker/daemon.json <<< '{"insecure-registries": ["${{ vars.REGISTRY_HOST }}"]}'
-          echo ${{ secrets.REGISTRY_PASSWORD }} | sudo -S systemctl restart docker
-
       - name: "Build and Push Docker Image"
         uses: docker/build-push-action@v5
         with:
