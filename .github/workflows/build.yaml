@@ -49,9 +49,6 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64
 
-      - name: Use context
-        run: kubectl config use-context octobay-api
-
       - name: Dry Run Deploy to K8s
         uses: actions-hub/kubectl@master
         if: github.event_name == 'pull_request'
