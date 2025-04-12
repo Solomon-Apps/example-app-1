@@ -27,6 +27,9 @@ jobs:
             network=host
           buildkitd-config-inline: |
             insecure-registries = ["${{ vars.REGISTRY_HOST }}"]
+            [registry."${{ vars.REGISTRY_HOST }}"]
+              http = false
+              insecure = true
 
       - name: "Build and Push Docker Image"
         uses: docker/build-push-action@v5
