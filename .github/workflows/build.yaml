@@ -24,8 +24,8 @@ jobs:
 
       - name: "Configure Docker for insecure registry"
         run: |
-          echo '{"insecure-registries": ["${{ vars.REGISTRY_HOST }}"]}' | sudo tee /etc/docker/daemon.json -S ${{ secrets.REGISTRY_PASSWORD }}
-          sudo systemctl restart docker -S ${{ secrets.REGISTRY_PASSWORD }}
+          echo ${{ secrets.REGISTRY_PASSWORD }} | sudo -S tee /etc/docker/daemon.json <<< '{"insecure-registries": ["${{ vars.REGISTRY_HOST }}"]}'
+          echo ${{ secrets.REGISTRY_PASSWORD }} | sudo -S systemctl restart docker
 
       - name: "Build and Push Docker Image"
         uses: docker/build-push-action@v5
