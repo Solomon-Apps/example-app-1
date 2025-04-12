@@ -38,8 +38,8 @@ jobs:
           file: ./src/Dockerfile
           push: ${{ github.event_name == 'push' }}
           tags: |
-            ${{ vars.REGISTRY_HOST }}/example-app-1:latest
-            ${{ vars.REGISTRY_HOST }}/example-app-1:${{ github.sha }}
+            ${{ vars.REGISTRY_HOST }}/${{ github.repository }}:latest
+            ${{ vars.REGISTRY_HOST }}/${{ github.repository }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
