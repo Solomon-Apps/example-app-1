@@ -26,9 +26,7 @@ jobs:
           driver-opts: |
             network=host
           buildkitd-config-inline: |
-            {
-              "insecure-registries": ["${{ vars.REGISTRY_HOST }}"]
-            }
+            insecure-registries = ["${{ vars.REGISTRY_HOST }}"]
 
       - name: "Build and Push Docker Image"
         uses: docker/build-push-action@v5
