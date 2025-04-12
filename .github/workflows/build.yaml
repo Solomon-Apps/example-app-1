@@ -11,6 +11,8 @@ jobs:
     name: "Docker Build and Push"
     runs-on: self-hosted
     environment: "Docker"
+    env:
+      DOCKER_TLS_VERIFY: ""
 
     steps:
       - name: "Checkout"
