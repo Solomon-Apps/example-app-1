@@ -20,6 +20,11 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
+      - name: "Extract repository name"
+        id: extract_repo
+        run: |
+          echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)" >> $GITHUB_ENV
+
       - name: "Set up Docker Buildx"
         uses: docker/setup-buildx-action@v3
         with:
@@ -38,8 +43,8 @@ jobs:
           file: ./src/Dockerfile
           push: ${{ github.event_name == 'push' }}
           tags: |
-            ${{ vars.REGISTRY_HOST }}/${{ github.repository }}:latest
-            ${{ vars.REGISTRY_HOST }}/${{ github.repository }}:${{ github.sha }}
+            ${{ vars.REGISTRY_HOST }}/${{ env.REPO_NAME }}:latest
+            ${{ vars.REGISTRY_HOST }}/${{ env.REPO_NAME }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
