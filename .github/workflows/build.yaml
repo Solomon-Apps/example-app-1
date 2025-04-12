@@ -13,6 +13,8 @@ jobs:
     environment: "Docker"
     env:
       DOCKER_TLS_VERIFY: ""
+      DOCKER_BUILDKIT: 1
+      DOCKER_CLI_EXPERIMENTAL: enabled
 
     steps:
       - name: "Checkout"
@@ -23,6 +25,10 @@ jobs:
         with:
           driver-opts: |
             network=host
+          config-inline: |
+            {
+              "insecure-registries": ["${{ vars.REGISTRY_HOST }}"]
+            }
 
       - name: "Build and Push Docker Image"
         uses: docker/build-push-action@v5
@@ -35,3 +41,4 @@ jobs:
             ${{ vars.REGISTRY_HOST }}/example-app-1:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64
