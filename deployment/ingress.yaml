@@ -14,4 +14,4 @@ spec:
               service:
                 name: example-app-1
                 port:
-                  number: 5000
+                  number: 80
